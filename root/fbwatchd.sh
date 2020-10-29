@@ -9,7 +9,7 @@ CONFIGFILE="/etc/fbwatchd.cfg"
 
 source $CONFIGFILE
 
-STATE_FILE="/tmp/fon_status"
+STATE_FILE="/tmp/fbwatchd/fon_status"
 
 
 function sip_status {
@@ -50,10 +50,12 @@ function fb_reboot {
 
 ## main
 
+echo "start watching..."
+
 COUNT=1
 while :
 do
-    touch /tmp/fb_watch
+    touch /tmp/fbwatchd/fb_watch
     SIP_STATUS=$(sip_status $FRITZIP $FRITZUSER $FRITZPW)
 
     if [[ "$SIP_STATUS" -eq "1" ]]; then
@@ -61,19 +63,19 @@ do
 	COUNT=1
     else 
 	echo "ERROR $COUNT SIP STATUS: $SIP_STATUS" > $STATE_FILE
+	echo "ERROR $COUNT SIP STATUS: $SIP_STATUS"
         ((COUNT=COUNT+1))
     fi
 
     if [[ "$COUNT" -eq "$RETRY" ]]; then
 	echo "ERROR $COUNT - REBOOT FRITZ!BOX" > $STATE_FILE
+	echo "ERROR $COUNT - REBOOT FRITZ!BOX"
         fb_reboot $FRITZIP $FRITZUSER $FRITZPW
 	COUNT=1
     fi
 
     NOW=$(date +%s)
-    LF_ATIME=$(stat -c %X /tmp/fb_watch)
+    LF_ATIME=$(stat -c %X /tmp/fbwatchd/fb_watch)
     SLEEP=$(($INTERVAL - ($NOW - $LF_ATIME)))
     sleep $SLEEP
-
-
 done	
