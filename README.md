@@ -11,9 +11,6 @@ FRITZPW="password"
 INTERVAL=300   # watch interval for checking sip state  
 RETRY=6        # retry counter  
 
-
-
-
 #docker run command:
 
 docker run -v ./fbwatchd/fbwatcohd.cfg:/etc/fbwatchd.cfg --name fbwatchd aszabo/fbwatchd
