@@ -1,6 +1,6 @@
 # watching fritzbox for sip-failure and reboot fb
 
-config file to set up Fritz!Box IP, credntials, watch interval and retry:
+config file to set up Fritz!Box IP, credentials, watch interval and retry:
 ./fbwatchd/fbwatchd.cfg
 
 Default:
