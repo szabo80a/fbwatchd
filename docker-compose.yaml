@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  fbwatchd:
+    container_name: docker_fbwatchd
+    image: aszabo/fbwatchd:latest
+    volumes:
+      - ./fbwatchd/fbwatchd.cfg:/etc/fbwatchd.cfg
+      - ./fbwatchd/tmp/:/tmp/fbwatchd/
+    restart: always
+
