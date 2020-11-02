@@ -6,6 +6,6 @@ RUN apk add bash curl jq
 RUN apk add --no-cache --upgrade grep
 
 # add local files
-ADD /root /
+COPY /root /
 # start the daemon
 CMD /fbwatchd.sh 
