@@ -6,11 +6,12 @@
 #####
 
 CONFIGFILE="/etc/fbwatchd.cfg"
-LOGFILE="/tmp/fbwatchd/fbwatchd.log"
 
 source $CONFIGFILE
 
 STATE_FILE="/tmp/fbwatchd/fon_status"
+LOGFILE="/tmp/fbwatchd/fbwatchd.log"
+touch $LOGFILE
 
 
 function sip_status {
@@ -51,7 +52,7 @@ function fb_reboot {
 
 ## main
 
-echo "start watching..."
+echo "$(date) - start watching..." >> $LOGFILE
 
 COUNT=1
 while :
