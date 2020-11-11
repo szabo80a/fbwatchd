@@ -6,6 +6,7 @@
 #####
 
 CONFIGFILE="/etc/fbwatchd.cfg"
+LOGFILE="/tmp/fbwatchd/fbwatchd.log"
 
 source $CONFIGFILE
 
@@ -63,13 +64,13 @@ do
 	COUNT=1
     else 
 	echo "ERROR $COUNT SIP STATUS: $SIP_STATUS" > $STATE_FILE
-	echo "ERROR $COUNT SIP STATUS: $SIP_STATUS"
+	echo "$(date) - ERROR $COUNT SIP STATUS: $SIP_STATUS" >> $LOGFILE
         ((COUNT=COUNT+1))
     fi
 
     if [[ "$COUNT" -eq "$RETRY" ]]; then
 	echo "ERROR $COUNT - REBOOT FRITZ!BOX" > $STATE_FILE
-	echo "ERROR $COUNT - REBOOT FRITZ!BOX"
+	echo "(date) - ERROR $COUNT - REBOOT FRITZ!BOX" >> $LOGFILE
         fb_reboot $FRITZIP $FRITZUSER $FRITZPW
 	COUNT=1
     fi
