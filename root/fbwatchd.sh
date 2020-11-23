@@ -19,7 +19,7 @@ function sip_status {
     USER=$2
     PW=$3
     BOXURL="http://${IP}"
-    REQUESTPAGE="/query.lua?fon=sip:settings/sip/list(activated)"
+    REQUESTPAGE="/query.lua?fon=sip:settings/sip/list(connect)"
 
     ### LOGIN via login_sid.lua
 
@@ -29,7 +29,7 @@ function sip_status {
     SID=$(curl -i -s -k -d "response=${RESPONSE}&username=${USER}" "${BOXURL}" | grep -Po -m 1 '(?<=sid=)[a-f\d]+')
 
     ###check first fon is active via query.lua
-    STATUS=$(curl -s "${BOXURL}${REQUESTPAGE}" -d "sid=${SID}" | jq '.fon[0].activated '| sed 's/"//g')
+    STATUS=$(curl -s "${BOXURL}${REQUESTPAGE}" -d "sid=${SID}" | jq '.fon[0].connect '| sed 's/"//g')
     
     echo $STATUS
     }
@@ -60,7 +60,7 @@ do
     touch /tmp/fbwatchd/fb_watch
     SIP_STATUS=$(sip_status $FRITZIP $FRITZUSER $FRITZPW)
 
-    if [[ "$SIP_STATUS" -eq "1" ]]; then
+    if [[ "$SIP_STATUS" -eq "2" ]]; then
         echo "OK SIP STATUS: $SIP_STATUS" > $STATE_FILE 
 	COUNT=1
     else 
