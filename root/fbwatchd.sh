@@ -50,6 +50,19 @@ function fb_reboot {
     }
 
 
+function sip_state_2_text {
+   # connect = 0 => sip nicht activated und (somit) nicht registriert
+   # connect = 1 => sip activated aber nicht registriert
+   # connect = 2 => sip activated und registriert
+   STATE=$1
+
+   if [[ "STATE" -eq "0" ]]; then text="0: sip not activated"; fi
+   if [[ "STATE" -eq "1" ]]; then text="1: sip activated but not registred"; fi
+   if [[ "STATE" -eq "2" ]]; then text="2: sip activated and registred"; fi
+
+   echo $text
+   }
+
 ## main
 
 echo "$(date) - start watching..." >> $LOGFILE
@@ -61,17 +74,17 @@ do
     SIP_STATUS=$(sip_status $FRITZIP $FRITZUSER $FRITZPW)
 
     if [[ "$SIP_STATUS" -eq "2" ]]; then
-        echo "OK SIP STATUS: $SIP_STATUS" > $STATE_FILE 
+	    echo "OK SIP STATUS: $(sip_state_2_text $SIP_STATUS)" > $STATE_FILE 
 	COUNT=1
     else 
 	echo "ERROR $COUNT SIP STATUS: $SIP_STATUS" > $STATE_FILE
-	echo "$(date) - ERROR $COUNT SIP STATUS: $SIP_STATUS" >> $LOGFILE
+	echo "$(date) - ERROR $COUNT SIP STATUS: $(sip_state_2_text $SIP_STATUS)" >> $LOGFILE
         ((COUNT=COUNT+1))
     fi
 
     if [[ "$COUNT" -eq "$RETRY" ]]; then
 	echo "ERROR $COUNT - REBOOT FRITZ!BOX" > $STATE_FILE
-	echo "(date) - ERROR $COUNT - REBOOT FRITZ!BOX" >> $LOGFILE
+	echo "$(date) - ERROR $COUNT - REBOOT FRITZ!BOX" >> $LOGFILE
         fb_reboot $FRITZIP $FRITZUSER $FRITZPW
 	COUNT=1
     fi
