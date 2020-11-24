@@ -56,9 +56,15 @@ function sip_state_2_text {
    # connect = 2 => sip activated und registriert
    STATE=$1
 
-   if [[ "STATE" -eq "0" ]]; then text="0: sip not activated"; fi
-   if [[ "STATE" -eq "1" ]]; then text="1: sip activated but not registred"; fi
-   if [[ "STATE" -eq "2" ]]; then text="2: sip activated and registred"; fi
+   if [[ "STATE" -eq "0" ]]; then 
+     text="0: sip not activated"
+   elif [[ "STATE" -eq "1" ]]; then 
+     text="1: sip activated but not registred"
+   elif [[ "STATE" -eq "2" ]]; then 
+     text="2: sip activated and registred"
+   else 
+     text="unknown sip status $STATE"
+   fi
 
    echo $text
    }
