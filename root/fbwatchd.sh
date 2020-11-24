@@ -77,14 +77,14 @@ do
 	    echo "OK SIP STATUS: $(sip_state_2_text $SIP_STATUS)" > $STATE_FILE 
 	COUNT=1
     else 
-	echo "ERROR $COUNT SIP STATUS: $SIP_STATUS" > $STATE_FILE
+	echo "ERROR $COUNT SIP STATUS: $(sip_state_2_text $SIP_STATUS)" > $STATE_FILE
 	echo "$(date) - ERROR $COUNT SIP STATUS: $(sip_state_2_text $SIP_STATUS)" >> $LOGFILE
         ((COUNT=COUNT+1))
     fi
 
     if [[ "$COUNT" -eq "$RETRY" ]]; then
-	echo "ERROR $COUNT - REBOOT FRITZ!BOX" > $STATE_FILE
-	echo "$(date) - ERROR $COUNT - REBOOT FRITZ!BOX" >> $LOGFILE
+	echo "ERROR $COUNT - SIP STATUS: $(sip_state_2_text $SIP_STATUS) - REBOOT FRITZ!BOX" > $STATE_FILE
+	echo "$(date) - ERROR $COUNT - SIP STATUS: $(sip_state_2_text $SIP_STATUS) - REBOOT FRITZ!BOX" >> $LOGFILE
         fb_reboot $FRITZIP $FRITZUSER $FRITZPW
 	COUNT=1
     fi
