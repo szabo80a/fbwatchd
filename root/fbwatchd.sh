@@ -63,7 +63,7 @@ function sip_state_2_text {
    elif [[ "STATE" -eq "2" ]]; then 
      text="2: sip activated and registred"
    else 
-     text="unknown sip status $STATE"
+     text="$STATE sip call"
    fi
 
    echo $text
@@ -81,6 +81,9 @@ do
 
     if [[ "$SIP_STATUS" -eq "2" ]]; then
 	    echo "OK SIP STATUS: $(sip_state_2_text $SIP_STATUS)" > $STATE_FILE 
+	COUNT=1
+    elif [[ "$SIP_STATUS" -eq "3" ]]; then
+	    echo "OK SIP STATUS: $(sip_state_2_text $SIP_STATUS)" > $STATE_FILE
 	COUNT=1
     else 
 	echo "ERROR $COUNT SIP STATUS: $(sip_state_2_text $SIP_STATUS)" > $STATE_FILE
